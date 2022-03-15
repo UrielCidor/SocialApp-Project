@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import UserService from "../services/authService";
+import MapContainer from "./mapContainer";
 
 export default class Home extends Component {
     constructor(props) {
@@ -40,6 +41,7 @@ export default class Home extends Component {
                 <header className="jumbotron">
                     {console.log(this.state.content)}
                     <h3>Fakelock</h3>
+                    <MapContainer></MapContainer>           
                 </header>
             </div>
         );
