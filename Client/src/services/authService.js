@@ -3,19 +3,16 @@ import axios from "axios";
 const API_URL = "http://localhost:4000/api/auth/";
 
 class AuthService {
-  login(username, password) {
-    return axios
+  async login(username, password) {
+    const response = await axios
       .post(API_URL + "signin", {
         username,
         password
-      })
-      .then(response => {
-        if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
-
-        return response.data;
       });
+    if (response.data.accessToken) {
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }
+    return response.data;
   }
 
   logout() {
@@ -30,9 +27,20 @@ class AuthService {
     });
   }
 
-  getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
+  resetPassword(username, password){
+    return axios.put(API_URL + "reset", {
+      username,
+      password
+    })
   }
+
+  getCurrentUser() {
+    return JSON.parse(localStorage.getItem('user'));
+  }
+
+  forgotPassword(username) {
+    return axios.get(API_URL + `forgot/?username=${username}`);
+}
 }
 
 export default new AuthService();

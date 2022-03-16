@@ -30,6 +30,7 @@ db.mongoose
 
 
 require('./routes/login')(app);
+require('./routes/user')(app);
 
 
 const PORT = process.env.PORT || 4000;

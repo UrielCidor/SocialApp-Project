@@ -13,7 +13,12 @@ module.exports = function (app) {
         verifySignUp,
         controller.signup
     );
+    app.put(
+        "/api/auth/reset",
+        controller.resetPassword
+    );
     app.post("/api/auth/signin", controller.signin);
+    app.get("/api/auth/forgot", controller.forgotPassword);
 
     
 };
