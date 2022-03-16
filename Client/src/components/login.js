@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { Navigate } from "react-router-dom";
-
 import AuthService from "../services/authService";
 
 const required = value => {
@@ -27,7 +25,8 @@ export default class Login extends Component {
       username: "",
       password: "",
       loading: false,
-      message: ""
+      message: "",
+      successful: false
     };
   }
 
@@ -45,7 +44,6 @@ export default class Login extends Component {
 
   handleLogin(e) {
     e.preventDefault();
-    console.log(this.props);
 
     this.setState({
       message: "",
@@ -57,11 +55,8 @@ export default class Login extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.login(this.state.username, this.state.password).then(
         () => {
-        //   this.props.history.push("/profile");
-        // <Navigate to="/profile" />
-          window.location.reload();
-        //   console.log("here")
-        // return <Navigate to="/profile" />
+          // this.props.history.push("/");
+          window.location.reload()
         },
         error => {
           const resMessage =
@@ -82,11 +77,41 @@ export default class Login extends Component {
         loading: false
       });
     }
-    console.log(this.props);
+  }
+
+  handleForgotPassword(e) {
+    e.preventDefault();
+    this.setState({
+      message: "",
+      loading: true
+    });
+    AuthService.forgotPassword(this.state.username).then(
+      ()=>{
+        this.setState({
+          message: "reset your password following the link sent to your email",
+          loading: false,
+          successful: true
+        });
+      },
+      error=>{
+        const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          this.setState({
+            loading: false,
+            message: resMessage,
+            successful: false
+          });
+      }
+    )
+ 
   }
 
   render() {
-      console.log(this.props)
     return (
       <div className="col-md-12">
         <div className="card card-container">
@@ -140,7 +165,9 @@ export default class Login extends Component {
 
             {this.state.message && (
               <div className="form-group">
-                <div className="alert alert-danger" role="alert">
+                <div className={this.state.successful
+                  ? "alert alert-success"
+                  : "alert alert-danger"} role="alert">
                   {this.state.message}
                 </div>
               </div>
@@ -151,6 +178,7 @@ export default class Login extends Component {
                 this.checkBtn = c;
               }}
             />
+            <div onClick={this.handleForgotPassword.bind(this)}>forgot password?</div>
           </Form>
         </div>
       </div>

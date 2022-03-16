@@ -9,8 +9,8 @@ import Login from "./components/login";
 import Register from "./components/register";
 import Profile from "./components/profile";
 import Home from "./components/home";
+import Reset from "./components/reset";
 
-// import AuthVerify from "./common/auth-verify";
 import EventBus from "./eventBus";
 
 class App extends Component {
@@ -87,14 +87,14 @@ class App extends Component {
 
         <div className="container mt-3">
           <Routes>
-            <Route path="/" element={<Home />} /><Route/>
-            <Route path="/login" element={<Login />} /><Route/>
-            <Route path="/register" element={<Register />} /><Route/>
-            <Route path="/profile" element={<Profile />} /><Route/>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/reset" element={<Reset/>} />
           </Routes>
         </div>
 
-        { /*<AuthVerify logOut={this.logOut}/> */}
       </div>
     );
   }

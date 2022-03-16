@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import UserService from "../services/authService";
+import UserService from "../services/userService";
 import MapContainer from "./mapContainer";
 
 export default class Home extends Component {
@@ -13,22 +13,7 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        // UserService.getCurrentUser().then(
-        //   response => {
-        //     this.setState({
-        //       content: response.data
-        //     });
-        //   },
-        //   error => {
-        //     this.setState({
-        //       content:
-        //         (error.response && error.response.data) ||
-        //         error.message ||
-        //         error.toString()
-        //     });
-        //   }
-        // );
-        UserService.getCurrentUser() ? this.setState({ content: UserService.getCurrentUser() }) :
+        UserService.getCurrentUser() ? this.setState({ content: localStorage.getItem('user') }) :
             this.setState({
                 content:""
             })
