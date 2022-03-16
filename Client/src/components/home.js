@@ -41,7 +41,7 @@ export default class Home extends Component {
                 <header className="jumbotron">
                     {console.log(this.state.content)}
                     <h3>Fakelock</h3>
-                    <MapContainer></MapContainer>           
+                    {/* <MapContainer></MapContainer>   */}         
                 </header>
             </div>
         );
