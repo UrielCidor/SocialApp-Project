@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import MenuItem from "@material-ui/core/MenuItem";
 import './home.css'
 import UserService from "../services/userService";
 import MapContainer from "./mapContainer";
