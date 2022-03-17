@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 const mapStyles = {
   map: {
     position: 'absolute',
-    width: '100%',
-    height: '100%'
+    width: '70%',
+    height: '80%'
   }
 };
 
@@ -24,6 +24,7 @@ export class CurrentLocation extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
+      console.log(this.props.google)
         if (prevProps.google !== this.props.google) {
           this.loadMap();
         }
@@ -40,6 +41,7 @@ export class CurrentLocation extends Component {
     
         if (map) {
           let center = new maps.LatLng(current.lat, current.lng);
+          console.log(current.lat, current.lng)
           map.panTo(center);
         }
       }
@@ -51,8 +53,8 @@ export class CurrentLocation extends Component {
               const coords = pos.coords;
               this.setState({
                 currentLocation: {
-                  lat: coords.latitude,
-                  lng: coords.longitude
+                  lat: -21.805149,
+                  lng: -49.0921657
                 }
               });
             });
@@ -104,6 +106,7 @@ export class CurrentLocation extends Component {
 
     render() {
         const style = Object.assign({}, mapStyles.map);
+      console.log(this.props.google.maps.LatLng)
     
         return (
           <div>
@@ -117,7 +120,7 @@ export class CurrentLocation extends Component {
 }
 
 CurrentLocation.defaultProps = {
-    zoom: 14,
+    zoom: 17,
     initialCenter: {
       lat: -1.2884,
       lng: 36.8233

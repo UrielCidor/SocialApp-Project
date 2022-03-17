@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import { GoogleApiWrapper, InfoWindow, Marker, Circle } from 'google-maps-react';
 
 import CurrentLocation from './map';
 
@@ -27,12 +27,30 @@ export class MapContainer extends Component {
   };
 
   render() {
+  const coords = { lat: -21.805149, lng: -49.0921657 };
+
     return (
       <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
       >
         <Marker onClick={this.onMarkerClick} name={'Current Location'} />
+        <Marker
+          onClick={this.onMarkerClick}
+          name={'Post1'}
+          position={{ lat: 32.0596261, lng: 34.7590195 }} />
+        <Circle
+        radius={1200}
+        center={coords}
+        onMouseover={() => console.log('mouseover')}
+        onClick={() => console.log('click')}
+        onMouseout={() => console.log('mouseout')}
+        strokeColor='transparent'
+        strokeOpacity={0}
+        strokeWeight={5}
+        fillColor='#FF0000'
+        fillOpacity={0.2}
+      />
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
@@ -48,7 +66,7 @@ export class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper(
-    (props) => ({
-      apiKey: 'AIzaSyDZQyl9bEj2jljuHiPS4TsfL5V4usG7ni4'
-    }
+  (props) => ({
+    apiKey: 'AIzaSyDZQyl9bEj2jljuHiPS4TsfL5V4usG7ni4'
+  }
   ))(MapContainer)  
