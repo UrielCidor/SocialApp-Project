@@ -19,10 +19,8 @@ const Reset = (props) => {
     const [successful, setSuccessful] = useState(false);
 
     useEffect(() => {
-        // console.log(location)
         let name = location.search.slice(1);
         setUsername(name);
-        // console.log(name);
 
     }, [location]);
 
@@ -38,24 +36,23 @@ const Reset = (props) => {
 
     const vpassword = value => {
         if (value.length < 6 || value.length > 40) {
-          return (
-            <div className="alert alert-danger" role="alert">
-              The password must be between 6 and 40 characters.
-            </div>
-          );
+            return (
+                <div className="alert alert-danger" role="alert">
+                    The password must be between 6 and 40 characters.
+                </div>
+            );
         }
-      };
+    };
 
-      const vPasswordConfirmation = value => {
-          console.log(password);
+    const vPasswordConfirmation = value => {
         if (value !== password.current) {
-          return (
-            <div className="alert alert-danger" role="alert">
-              Password don't match!
-            </div>
-          );
+            return (
+                <div className="alert alert-danger" role="alert">
+                    Password don't match!
+                </div>
+            );
         }
-      };
+    };
 
     const onChangePassword = (e) => {
         setEnteredPassword(e.target.value);
@@ -75,11 +72,12 @@ const Reset = (props) => {
 
         if (checkBtn.current.context._errors.length === 0) {
             AuthService.resetPassword(username, enteredPassword).then(
-                () => {
+                response => {
                     // props.history.push("/");
-                    window.location.reload()
                     setSuccessful(true);
-                    setMessage("password updated!")
+                    setMessage(response.data.message)
+                    // window.location.reload()
+
                 },
                 error => {
                     const resMessage =
@@ -93,9 +91,8 @@ const Reset = (props) => {
                     setLoading(false);
                 }
             );
-        } else {
-            setLoading(false);
-        }
+        } setLoading(false);
+
     }
 
 

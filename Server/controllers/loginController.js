@@ -102,8 +102,8 @@ exports.forgotPassword = (req, res) => {
             const mailOptions = {
                 from: 'urielcidor@gmail.com',
                 to: user.email,
-                subject: 'Sending Email using Node.js',
-                html: `That was easy! <a href="http://localhost:3000/reset/?${user.username}">reset your password</a>`
+                subject: 'Update password to socialApp project',
+                html: `Hi ${user.username}!<br/> <a href="http://localhost:3000/reset/?${user.username}">reset your password</a>`
             };
 
             transporter.sendMail(mailOptions, function (error, info) {
@@ -111,7 +111,7 @@ exports.forgotPassword = (req, res) => {
                     console.log(error);
                 } else {
                     console.log('Email sent: ' + info.response);
-                    res.status(200).send(info.response);
+                    res.status(200).send({message: `Email sent to: ${user.email}`});
                 }
             });
         })

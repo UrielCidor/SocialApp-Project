@@ -8,7 +8,8 @@ class UserService {
         return axios.get(API_URL + `user/?username=${username}`, { headers: authHeader() });
     }
     getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));
+        // return JSON.parse(localStorage.getItem('user'));
+        return JSON.stringify(localStorage.getItem('user'));
       }
 }
 

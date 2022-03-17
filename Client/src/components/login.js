@@ -55,8 +55,7 @@ export default class Login extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.login(this.state.username, this.state.password).then(
         () => {
-          // this.props.history.push("/");
-          window.location.reload()
+          window.location.assign("/home");
         },
         error => {
           const resMessage =
@@ -77,6 +76,7 @@ export default class Login extends Component {
         loading: false
       });
     }
+
   }
 
   handleForgotPassword(e) {
@@ -86,9 +86,9 @@ export default class Login extends Component {
       loading: true
     });
     AuthService.forgotPassword(this.state.username).then(
-      ()=>{
+      response=>{
         this.setState({
-          message: "reset your password following the link sent to your email",
+          message: response.data.message,
           loading: false,
           successful: true
         });
