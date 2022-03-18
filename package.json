@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "material-ui": "^0.20.2",
+    "react-pro-sidebar": "^0.7.1",
+    "semantic-ui-react": "^2.1.2"
+  }
+}

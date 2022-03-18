@@ -28,8 +28,8 @@ export default class Home extends Component {
                     <h3>Fakelock</h3>       
                 </header>
                 <div className="dashboard">
-                    <div>options bar</div>
-                    <div><MapContainer/></div>
+                    {/* <div>options bar</div> */}
+                    <div><MapContainer/></div>                   
                 </div>
             </div>
         );
