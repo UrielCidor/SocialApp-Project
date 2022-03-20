@@ -19,7 +19,7 @@ export default class Home extends Component {
             })
     }
 
-    onChange(e) {
+    onChangePublisher(e) {
         this.setState({
             startDate: e.target.value,
             endDate: e.target.value,
@@ -42,7 +42,7 @@ export default class Home extends Component {
                     <div>           
                     Date from: <input type="date" onChange={e => this.onChange(e.target.value.startDate)}/> 
                     Date to: <input type="date" onChange={e => this.onChange(e.target.value.endDate)}/> 
-                    Publishers: <input type="text" onChange={e => this.onChange(e.target.value.publishers)}/>
+                    Publishers: <input type="text" onChange={e => this.onChangePublisher}/>
                     Radius from current location: <input type="number" onChange={e => this.onChange(e.target.value.radius)}/>
                     Image tags: <input type="text" onChange={e => this.onChange(e.target.value.imageTags)}/>
                     Tagged users: <input type="text" onChange={e => this.onChange(e.target.value.taggedUsers)}/>
