@@ -10,7 +10,8 @@ export default class Home extends Component {
         // this.toggleNewPost = this.toggleNewPost.bind(this);
         this.state = {
             content: "",
-            inNewPost: false
+            inNewPost: false,
+            publisher:""
         };
     }
 
@@ -25,20 +26,21 @@ export default class Home extends Component {
             })
     }
 
-    onChange(e) {
+    onChangePublisher(e) {
+        console.log(e.target.value)
         this.setState({
-            startDate: e.target.value,
-            endDate: e.target.value,
-            publishers: e.target.value,
-            radius: e.target.value,
-            imageTags: e.target.value,
-            taggedUsers: e.target.value
+            // startDate: e.target.value,
+            // endDate: e.target.value,
+            publishers: e.target.value
+            // radius: e.target.value,
+            // imageTags: e.target.value,
+            // taggedUsers: e.target.value
         });
       }
 
     render() {
         // const userName = JSON.parse(localStorage.getItem('user').username);
-        // console.log(userName);
+        // console.log(this.startDate);
         return (
             <div className="container">
                 <header className="jumbotron">
@@ -56,7 +58,7 @@ export default class Home extends Component {
                     <div>           
                     Date from: <input type="date" onChange={e => this.onChange(e.target.value.startDate)}/> 
                     Date to: <input type="date" onChange={e => this.onChange(e.target.value.endDate)}/> 
-                    Publishers: <input type="text" onChange={e => this.onChange(e.target.value.publishers)}/>
+                    Publishers: <input type="text" onChange={this.onChangePublisher.bind(this)}/>
                     Radius from current location: <input type="number" onChange={e => this.onChange(e.target.value.radius)}/>
                     Image tags: <input type="text" onChange={e => this.onChange(e.target.value.imageTags)}/>
                     Tagged users: <input type="text" onChange={e => this.onChange(e.target.value.taggedUsers)}/>

@@ -1,7 +1,7 @@
 const PublishNewPost = (props) => {
 
-    
-    return (
+
+    return (    
         <div className="card" style={{position:'fixed', zIndex:1, width: 18 + 'rem'}}>
             {/* <img src="..." class="card-img-top" alt="..."> */}
                 <div className="card-body">
