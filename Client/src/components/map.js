@@ -53,8 +53,8 @@ export class CurrentLocation extends Component {
               const coords = pos.coords;
               this.setState({
                 currentLocation: {
-                  lat: -21.805149,
-                  lng: -49.0921657
+                  lat: coords.latitude,
+                  lng: coords.longitude
                 }
               });
             });
@@ -120,7 +120,7 @@ export class CurrentLocation extends Component {
 }
 
 CurrentLocation.defaultProps = {
-    zoom: 17,
+    zoom: 14,
     initialCenter: {
       lat: -1.2884,
       lng: 36.8233
