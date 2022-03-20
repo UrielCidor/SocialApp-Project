@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Navigate } from "react-router-dom";
 import AuthService from "../services/authService";
-import MapContainer from "./mapContainer";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -51,7 +50,6 @@ export default class Profile extends Component {
           {currentUser.email}
         </p>
       </div>: null}
-      <MapContainer></MapContainer>
       </div>
     );
   }
