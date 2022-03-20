@@ -27,7 +27,8 @@ export class MapContainer extends Component {
   };
 
   render() {
-  const coords = { lat: -21.805149, lng: -49.0921657 };
+    const CrazyHumanLakeCoords = { lat: -21.805149, lng: -49.0921657 };
+    const PostJerusalem1Coords = { lat: 31.7759335 , lng: 35.2186382 };
 
     return (
       <CurrentLocation
@@ -39,18 +40,22 @@ export class MapContainer extends Component {
           onClick={this.onMarkerClick}
           name={'Post1'}
           position={{ lat: 32.0596261, lng: 34.7590195 }} />
+        <Marker
+          onClick={this.onMarkerClick}
+          name={'Post2'}
+          position={PostJerusalem1Coords} />
         <Circle
-        radius={1200}
-        center={coords}
-        onMouseover={() => console.log('mouseover')}
-        onClick={() => console.log('click')}
-        onMouseout={() => console.log('mouseout')}
-        strokeColor='transparent'
-        strokeOpacity={0}
-        strokeWeight={5}
-        fillColor='#FF0000'
-        fillOpacity={0.2}
-      />
+          radius={1200}
+          center={CrazyHumanLakeCoords}
+          onMouseover={() => console.log('mouseover')}
+          onClick={() => console.log('click')}
+          onMouseout={() => console.log('mouseout')}
+          strokeColor='transparent'
+          strokeOpacity={0}
+          strokeWeight={5}
+          fillColor='#FF0000'
+          fillOpacity={0.2}
+        />
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
