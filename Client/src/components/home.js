@@ -9,21 +9,30 @@ export default class Home extends Component {
         super(props);
         // this.toggleNewPost = this.toggleNewPost.bind(this);
         this.state = {
+            currentUser: null,
             content: "",
             inNewPost: false,
-            publisher:""
+            publisher: "",
+
+            location: null
         };
     }
 
     toggleNewPost() {
-        this.setState({inNewPost: !this.state.inNewPost})
+        this.setState({ inNewPost: !this.state.inNewPost })
     }
 
     componentDidMount() {
-        UserService.getCurrentUser() ? this.setState({ content: localStorage.getItem('user') }) :
+        // console.log(UserService.getCurrentUser())
+        if (UserService.getCurrentUser()) {
+            const user = { ...JSON.parse(localStorage.getItem('user')) };
+            console.log(this.state.content);
+            this.setState({ currentUser: user, content: user.username })
+        } else if (UserService.getCurrentUser() == null) {
             this.setState({
-                content:""
+                content: "please login or register"
             })
+        }
     }
 
     onChangePublisher(e) {
@@ -36,7 +45,7 @@ export default class Home extends Component {
             // imageTags: e.target.value,
             // taggedUsers: e.target.value
         });
-      }
+    }
 
     render() {
         // const userName = JSON.parse(localStorage.getItem('user').username);
@@ -44,27 +53,27 @@ export default class Home extends Component {
         return (
             <div className="container">
                 <header className="jumbotron">
-                    {/* {console.log(this.state.content)} */}
                     <h3>Fakelock</h3>
-                    <h2>hello </h2>
+                    <h2>hello {this.state.content}</h2>
                 </header>
-                
-                <div className="dashboard">
-                {this.state.inNewPost && <NewPost user={localStorage.getItem('user')}/>}
-                    <div>
-                        <input type="button" value="publish new post" onClick={this.toggleNewPost.bind(this)}/>
-                    </div>
 
-                    <div>           
-                    Date from: <input type="date" onChange={e => this.onChange(e.target.value.startDate)}/> 
-                    Date to: <input type="date" onChange={e => this.onChange(e.target.value.endDate)}/> 
-                    Publishers: <input type="text" onChange={this.onChangePublisher.bind(this)}/>
-                    Radius from current location: <input type="number" onChange={e => this.onChange(e.target.value.radius)}/>
-                    Image tags: <input type="text" onChange={e => this.onChange(e.target.value.imageTags)}/>
-                    Tagged users: <input type="text" onChange={e => this.onChange(e.target.value.taggedUsers)}/>
+                <div className="dashboard">
+                    {this.state.inNewPost &&
+                        <NewPost
+                            user={this.state.currentUser}
+                            location={this.state.location} />}
+                    <div>
+                        <input type="button" value="publish new post" onClick={this.toggleNewPost.bind(this)} />
+                        <br/>
+                        Date from: <input type="date" onChange={e => this.onChange(e.target.value.startDate)} />
+                        Date to: <input type="date" onChange={e => this.onChange(e.target.value.endDate)} />
+                        Publishers: <input type="text" onChange={this.onChangePublisher.bind(this)} />
+                        Radius from current location: <input type="number" onChange={e => this.onChange(e.target.value.radius)} />
+                        Image tags: <input type="text" onChange={e => this.onChange(e.target.value.imageTags)} />
+                        Tagged users: <input type="text" onChange={e => this.onChange(e.target.value.taggedUsers)} />
+                    </div>
+                    <div><MapContainer /></div>
                 </div>
-                <div><MapContainer/></div> 
-                </div>                          
             </div>
         );
     }

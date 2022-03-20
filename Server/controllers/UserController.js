@@ -15,9 +15,3 @@ exports.getUser = (req, res) => {
         res.status(200).send(user);
     })
   };
-
-//   exports.forgotPassword = (req, res) => {
-      
-//     const user = this.getUser(req);
-//     console.log(user)
-//   };

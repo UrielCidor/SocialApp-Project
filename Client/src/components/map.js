@@ -106,7 +106,7 @@ export class CurrentLocation extends Component {
 
     render() {
         const style = Object.assign({}, mapStyles.map);
-      console.log(this.props.google.maps.LatLng)
+      // console.log(this.props.google.maps.LatLng)
     
         return (
           <div>
