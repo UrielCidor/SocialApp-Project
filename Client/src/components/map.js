@@ -24,7 +24,7 @@ export class CurrentLocation extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-      console.log(this.props.google)
+      // console.log(this.props.google)
         if (prevProps.google !== this.props.google) {
           this.loadMap();
         }

@@ -10,13 +10,10 @@ export default class Home extends Component {
         // this.toggleNewPost = this.toggleNewPost.bind(this);
         this.state = {
             currentUser: null,
+            currentLocation: null,
             content: "",
             inNewPost: false,
-            publishers: [],
-            startDate: "",
-            endDate: "",
             radius: null,
-            imageTags: [],
             taggedUsers: []
         };
     }
@@ -36,9 +33,11 @@ export default class Home extends Component {
         }
     }
 
-    handleCurrentLocation(location){
+    handleCurrentLocation(location) {
         console.log(location);
-        this.setState({currentLocation: location})
+        if(this.state.currentUser)
+        this.setState({ currentLocation: location })
+        else this.setState({currentLocation: null})
     }
 
     onChangePublisher(e) {
@@ -62,35 +61,35 @@ export default class Home extends Component {
         console.log(this.state.publishers)
       }
 
-      onChangeStartDate(e) {
+    onChangeStartDate(e) {
         console.log(e.target.value)
         this.setState({
             startDate: e.target.value,
         });
-      }
+    }
 
-      onChangeEndDate(e) {
+    onChangeEndDate(e) {
         console.log(e.target.value)
         this.setState({
             endDate: e.target.value,
         });
-      }
+    }
 
-      onChangeRadius(e) {
+    onChangeRadius(e) {
         console.log(e.target.value)
         this.setState({
             radius: e.target.value,
         });
-      }
+    }
 
-      onChangeImageTags(e) {
+    onChangeImageTags(e) {
         console.log(e.target.value)
         this.setState({
             imageTags: e.target.value,
         });
-      }
+    }
 
-      onChangeTaggedUsers(e) {
+    onChangeTaggedUsers(e) {
         console.log(e.target.value)
         this.setState({
             taggedUsers: e.target.value,
@@ -99,7 +98,8 @@ export default class Home extends Component {
 
     render() {
         // const userName = JSON.parse(localStorage.getItem('user').username);
-        // console.log(this.startDate);
+        console.log(this.state.currentUser);
+        console.log(this.state.currentLocation);
         return (
             <div className="container">
                 <header className="jumbotron">
@@ -109,9 +109,13 @@ export default class Home extends Component {
 
                 <div className="dashboard">
                     {this.state.inNewPost &&
-                        <NewPost
-                            user={this.state.currentUser}
-                            location={this.state.location} />}
+                    //  this.state.currentUser ?
+                            <NewPost
+                                user={this.state.currentUser}
+                                location={this.state.currentLocation} 
+                                text ="You must be logged-in to publish a post"/> 
+                                // : <NewPost text="You must be logged-in to publish a post" />
+                                }
                     <div>
                         <input type="button" value="publish new post" onClick={this.toggleNewPost.bind(this)} />
                         <br/>
@@ -124,7 +128,7 @@ export default class Home extends Component {
                     </div>
                     <div><MapContainer searchInfo={{publishers: this.state.publishers}} currentLocation={this.handleCurrentLocation.bind(this)}/></div>
                 </div>
-            </div>                                     
+            </div>
         );
     }
 }
