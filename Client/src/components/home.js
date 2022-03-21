@@ -9,6 +9,7 @@ export default class Home extends Component {
         super(props);
         // this.toggleNewPost = this.toggleNewPost.bind(this);
         this.state = {
+            currentUser: null,
             content: "",
             inNewPost: false,
             publishers:"",
@@ -21,14 +22,20 @@ export default class Home extends Component {
     }
 
     toggleNewPost() {
-        this.setState({inNewPost: !this.state.inNewPost})
+        this.setState({ inNewPost: !this.state.inNewPost })
     }
 
     componentDidMount() {
-        UserService.getCurrentUser() ? this.setState({ content: localStorage.getItem('user') }) :
+        // console.log(UserService.getCurrentUser())
+        if (UserService.getCurrentUser()) {
+            const user = { ...JSON.parse(localStorage.getItem('user')) };
+            console.log(this.state.content);
+            this.setState({ currentUser: user, content: user.username })
+        } else if (UserService.getCurrentUser() == null) {
             this.setState({
-                content:""
+                content: "please login or register"
             })
+        }
     }
 
     onChangePublisher(e) {
@@ -71,7 +78,7 @@ export default class Home extends Component {
         this.setState({
             taggedUsers: e.target.value,
         });
-      }
+    }
 
     render() {
         // const userName = JSON.parse(localStorage.getItem('user').username);
@@ -79,17 +86,9 @@ export default class Home extends Component {
         return (
             <div className="container">
                 <header className="jumbotron">
-                    {/* {console.log(this.state.content)} */}
                     <h3>Fakelock</h3>
-                    <h2>hello </h2>
+                    <h2>hello {this.state.content}</h2>
                 </header>
-                
-                <div className="dashboard">
-                {this.state.inNewPost && <NewPost user={localStorage.getItem('user')}/>}
-                    <div>
-                        <input type="button" value="publish new post" onClick={this.toggleNewPost.bind(this)}/>
-                    </div>
-
                     <div>           
                     Date from: <input type="date" onChange={this.onChangeStartDate.bind(this)}/> 
                     Date to: <input type="date" onChange={this.onChangeEndDate.bind(this)}/> 
@@ -99,8 +98,7 @@ export default class Home extends Component {
                     Tagged users: <input type="text" onChange={this.onChangeTaggedUsers.bind(this)}/>
                 </div>
                 <div><MapContainer searchInfo={this.state.publishers}/></div> 
-                </div>                          
-            </div>
+            </div>                                     
         );
     }
 }
