@@ -30,12 +30,17 @@ export class MapContainer extends Component {
     const CrazyHumanLakeCoords = { lat: -21.805149, lng: -49.0921657 };
     const PostJerusalem1Coords = { lat: 31.7759335 , lng: 35.2186382 };
 console.log(this.props.searchInfo)
+navigator.geolocation.getCurrentPosition(pos => {
+  const coords = pos.coords;
+  console.log(coords.latitude, coords.longitude);
+  //this.props.currentLocation = coords;
+});
     return (
       <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
       >
-        <Marker onClick={this.onMarkerClick} name={this.props.searchInfo} />
+        <Marker onClick={this.onMarkerClick} name={"hi"} />
         <Marker
           onClick={this.onMarkerClick}
           name={'Post1'}
