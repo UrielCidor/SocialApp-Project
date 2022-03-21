@@ -12,7 +12,7 @@ export default class Home extends Component {
             currentUser: null,
             content: "",
             inNewPost: false,
-            publishers:"",
+            publishers: [],
             startDate: "",
             endDate: "",
             radius: null,
@@ -43,9 +43,12 @@ export default class Home extends Component {
 
     onChangePublisher(e) {
         console.log(e.target.value)
+        let publishers = e.target.value.split(",")
+        let tp = publishers.foreach(p => p.trim())
         this.setState({
-            publishers: e.target.value
+            publishers: tp
         });
+        console.log(this.state.publishers)
       }
 
       onChangeStartDate(e) {
@@ -108,9 +111,8 @@ export default class Home extends Component {
                         Image tags: <input type="text" onChange={e => this.onChange(e.target.value.imageTags)} />
                         Tagged users: <input type="text" onChange={e => this.onChange(e.target.value.taggedUsers)} />
                     </div>
-                    <div><MapContainer currentLocation={this.handleCurrentLocation.bind(this)}/></div>
+                    <div><MapContainer searchInfo={this.state.publishers} currentLocation={this.handleCurrentLocation.bind(this)}/></div>
                 </div>
-                <div><MapContainer searchInfo={this.state.publishers}/></div> 
             </div>                                     
         );
     }

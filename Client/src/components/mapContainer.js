@@ -42,7 +42,7 @@ navigator.geolocation.getCurrentPosition(pos => {
         centerAroundCurrentLocation
         google={this.props.google}
       >
-        <Marker onClick={this.onMarkerClick} name={"hi"} />
+        <Marker onClick={this.onMarkerClick} name={this.props.searchInfo} />
         <Marker
           onClick={this.onMarkerClick}
           name={'Post1'}
