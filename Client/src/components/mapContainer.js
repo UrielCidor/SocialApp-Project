@@ -10,6 +10,13 @@ export class MapContainer extends Component {
     selectedPlace: {}
   };
 
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const currentLocation = pos.coords;
+      // console.log(currentLocation.latitude, currentLocation.longitude);
+      this.props.onCurrentLocationChange(currentLocation);
+    });
+  }
   onMarkerClick = (props, marker, e) =>
     this.setState({
       selectedPlace: props,
@@ -30,19 +37,14 @@ export class MapContainer extends Component {
     //dummy posts
     const CrazyHumanLakeCoords = { lat: -21.805149, lng: -49.0921657 };
     const PostJerusalem1Coords = { lat: 31.7759335, lng: 35.2186382 };
-    navigator.geolocation.getCurrentPosition(pos => {
-      const coords = pos.coords;
-      console.log(coords.latitude, coords.longitude);
-      this.props.currentLocation = coords;
-    });
 
     return (
       <CurrentLocation
-      // {...console.log(this.centerAroundCurrentLocation)}
+        // {...console.log(this.centerAroundCurrentLocation)}
         centerAroundCurrentLocation
         google={this.props.google}
       >
-        <Marker onClick={this.onMarkerClick} name={this.props.searchInfo} />
+        <Marker onClick={this.onMarkerClick} name={this.props.searchInfo || "current location"} />
         <Marker
           onClick={this.onMarkerClick}
           name={'Post1'}
