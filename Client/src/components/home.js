@@ -12,9 +12,12 @@ export default class Home extends Component {
             currentUser: null,
             content: "",
             inNewPost: false,
-            publisher: "",
-
-            location: null
+            publishers:"",
+            startDate: "",
+            endDate: "",
+            radius: null,
+            imageTags: [],
+            taggedUsers: []
         };
     }
 
@@ -41,12 +44,42 @@ export default class Home extends Component {
     onChangePublisher(e) {
         console.log(e.target.value)
         this.setState({
-            // startDate: e.target.value,
-            // endDate: e.target.value,
             publishers: e.target.value
-            // radius: e.target.value,
-            // imageTags: e.target.value,
-            // taggedUsers: e.target.value
+        });
+      }
+
+      onChangeStartDate(e) {
+        console.log(e.target.value)
+        this.setState({
+            startDate: e.target.value,
+        });
+      }
+
+      onChangeEndDate(e) {
+        console.log(e.target.value)
+        this.setState({
+            endDate: e.target.value,
+        });
+      }
+
+      onChangeRadius(e) {
+        console.log(e.target.value)
+        this.setState({
+            radius: e.target.value,
+        });
+      }
+
+      onChangeImageTags(e) {
+        console.log(e.target.value)
+        this.setState({
+            imageTags: e.target.value,
+        });
+      }
+
+      onChangeTaggedUsers(e) {
+        console.log(e.target.value)
+        this.setState({
+            taggedUsers: e.target.value,
         });
     }
 
@@ -77,7 +110,8 @@ export default class Home extends Component {
                     </div>
                     <div><MapContainer currentLocation={this.handleCurrentLocation.bind(this)}/></div>
                 </div>
-            </div>
+                <div><MapContainer searchInfo={this.state.publishers}/></div> 
+            </div>                                     
         );
     }
 }
