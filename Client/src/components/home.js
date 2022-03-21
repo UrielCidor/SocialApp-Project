@@ -23,16 +23,19 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        // console.log(UserService.getCurrentUser())
-        if (UserService.getCurrentUser()) {
+        if (UserService.getCurrentUser() !== "null") {
             const user = { ...JSON.parse(localStorage.getItem('user')) };
-            console.log(this.state.content);
             this.setState({ currentUser: user, content: user.username })
-        } else if (UserService.getCurrentUser() == null) {
+        } else {
             this.setState({
                 content: "please login or register"
             })
         }
+    }
+
+    handleCurrentLocation(location){
+        console.log(location);
+        this.setState({currentLocation: location})
     }
 
     onChangePublisher(e) {
@@ -72,7 +75,7 @@ export default class Home extends Component {
                         Image tags: <input type="text" onChange={e => this.onChange(e.target.value.imageTags)} />
                         Tagged users: <input type="text" onChange={e => this.onChange(e.target.value.taggedUsers)} />
                     </div>
-                    <div><MapContainer /></div>
+                    <div><MapContainer currentLocation={this.handleCurrentLocation.bind(this)}/></div>
                 </div>
             </div>
         );
