@@ -29,13 +29,13 @@ export class MapContainer extends Component {
   render() {
     const CrazyHumanLakeCoords = { lat: -21.805149, lng: -49.0921657 };
     const PostJerusalem1Coords = { lat: 31.7759335 , lng: 35.2186382 };
-
+console.log(this.props.searchInfo)
     return (
       <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
       >
-        <Marker onClick={this.onMarkerClick} name={'Current Location'} />
+        <Marker onClick={this.onMarkerClick} name={this.props.searchInfo} />
         <Marker
           onClick={this.onMarkerClick}
           name={'Post1'}
