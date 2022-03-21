@@ -43,10 +43,21 @@ export default class Home extends Component {
 
     onChangePublisher(e) {
         console.log(e.target.value)
-        let publishers = publishers.trim(",")
+        let publishers = e.target.value.split(", ")
+        console.log(publishers)
+        let tPublishers = []       
+        publishers.forEach((p) => {
+           let tp = p.trim();
+           tPublishers.push(tp)
+        })
+        console.log(tPublishers)
         //let tp = publishers.foreach(p => p.trim())
+        tPublishers.forEach(tp => {
+            let user = UserService.getUser(tp)
+            console.log(user)            
+        })
         this.setState({
-            publishers
+            publishers: tPublishers
         });
         console.log(this.state.publishers)
       }
@@ -111,7 +122,7 @@ export default class Home extends Component {
                         Image tags: <input type="text" onChange={this.onChangeImageTags.bind(this)} />
                         Tagged users: <input type="text" onChange={this.onChangeTaggedUsers.bind(this)} />
                     </div>
-                    <div><MapContainer searchInfo={this.state.publishers} currentLocation={this.handleCurrentLocation.bind(this)}/></div>
+                    <div><MapContainer searchInfo={{publishers: this.state.publishers}} currentLocation={this.handleCurrentLocation.bind(this)}/></div>
                 </div>
             </div>                                     
         );
