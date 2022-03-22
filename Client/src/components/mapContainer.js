@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { GoogleApiWrapper, InfoWindow, Marker, Circle } from 'google-maps-react';
-
+import userService from '../services/userService';
 import CurrentLocation from './map';
 
 export class MapContainer extends Component {
@@ -33,7 +33,17 @@ export class MapContainer extends Component {
     }
   };
 
+  componentDidMount() {
+    //userService.getUser()
+  }
+
   render() {
+/*     const searchNames = this.props.searchInfo.publishers
+    console.log(searchNames)
+    searchNames.foreEach(n => {
+      return console.log(userService.getUser(n))
+    }) */
+    console.log(this.props.searchInfo)
     //dummy posts
     const CrazyHumanLakeCoords = { lat: -21.805149, lng: -49.0921657 };
     const PostJerusalem1Coords = { lat: 31.7759335, lng: 35.2186382 };
