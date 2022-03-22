@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Form from "react-validation/build/form";
+import Form from "react-validation";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";

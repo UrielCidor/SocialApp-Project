@@ -18,9 +18,8 @@ export default class Home extends Component {
         };
     }
 
-    toggleNewPost() {
-        this.setState({ inNewPost: !this.state.inNewPost })
-    }
+    handleOpenNewPost = () => { this.setState({ inNewPost: true }) };
+    handleCloseNewPost = () => { this.setState({ inNewPost: false }) };
 
     componentDidMount() {
         if (UserService.getCurrentUser() !== "null") {
@@ -35,20 +34,20 @@ export default class Home extends Component {
 
     handleCurrentLocation(location) {
         console.log(location);
-        if(this.state.currentUser)
-        this.setState({ currentLocation: location })
-        else this.setState({currentLocation: null})
+        if (this.state.currentUser)
+            this.setState({ currentLocation: location })
+        else this.setState({ currentLocation: null })
     }
 
     onChangePublisher(e) {
-        console.log(e.target.value)
-        let publishers = publishers.trim(",")
-        //let tp = publishers.foreach(p => p.trim())
+        let publishers = e.target.value.split(",")
+        let tp = [];
+        publishers.forEach(p => tp.push(p.trim()))
+        console.log(tp);
         this.setState({
-            publishers
+            publishers: tp
         });
-        console.log(this.state.publishers)
-      }
+    }
 
     onChangeStartDate(e) {
         console.log(e.target.value)
@@ -86,9 +85,6 @@ export default class Home extends Component {
     }
 
     render() {
-        // const userName = JSON.parse(localStorage.getItem('user').username);
-        console.log(this.state.currentUser);
-        console.log(this.state.currentLocation);
         return (
             <div className="container">
                 <header className="jumbotron">
@@ -97,17 +93,17 @@ export default class Home extends Component {
                 </header>
 
                 <div className="dashboard">
-                    {this.state.inNewPost &&
-                    //  this.state.currentUser ?
-                            <NewPost
-                                user={this.state.currentUser}
-                                location={this.state.currentLocation} 
-                                text ="You must be logged-in to publish a post"/> 
-                                // : <NewPost text="You must be logged-in to publish a post" />
-                                }
                     <div>
-                        <input type="button" value="publish new post" onClick={this.toggleNewPost.bind(this)} />
-                        <br/>
+                        <button className="btn btn-primary" variant="primary" onClick={this.handleOpenNewPost.bind(this)}>
+                            publish new post
+                        </button>
+                        <NewPost
+                            user={this.state.currentUser}
+                            location={this.state.currentLocation}
+                            inNewPost={this.state.inNewPost}
+                            handleCloseNewPost={this.handleCloseNewPost.bind(this)}
+                        />
+                        <br />
                         Date from: <input type="date" onChange={this.onChangeStartDate.bind(this)} />
                         Date to: <input type="date" onChange={this.onChangeEndDate.bind(this)} />
                         Publishers: <input type="text" onChange={this.onChangePublisher.bind(this)} />
@@ -115,7 +111,7 @@ export default class Home extends Component {
                         Image tags: <input type="text" onChange={this.onChangeImageTags.bind(this)} />
                         Tagged users: <input type="text" onChange={this.onChangeTaggedUsers.bind(this)} />
                     </div>
-                    <div><MapContainer searchInfo={this.state.publishers} onCurrentLocationChange={this.handleCurrentLocation.bind(this)} /></div>
+                    <div><MapContainer onCurrentLocationChange={this.handleCurrentLocation.bind(this)} /></div>
                 </div>
             </div>
         );
