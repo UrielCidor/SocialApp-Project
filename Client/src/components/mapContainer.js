@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { GoogleApiWrapper, InfoWindow, Marker, Circle } from 'google-maps-react';
-import userService from '../services/userService';
+// import userService from '../services/userService';
 import CurrentLocation from './map';
+import postService from '../services/postService';
+
 
 export class MapContainer extends Component {
   state = {
@@ -13,8 +15,23 @@ export class MapContainer extends Component {
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(pos => {
       const currentLocation = pos.coords;
-      // console.log(currentLocation.latitude, currentLocation.longitude);
       this.props.onCurrentLocationChange(currentLocation);
+
+      postService.getAllPosts().then(
+        (data) => {
+          console.log(data);
+        },
+        error => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+          console.log(resMessage);
+        }
+      );
+
     });
   }
   onMarkerClick = (props, marker, e) =>
@@ -33,27 +50,18 @@ export class MapContainer extends Component {
     }
   };
 
-  componentDidMount() {
-    //userService.getUser()
-  }
 
   render() {
-/*     const searchNames = this.props.searchInfo.publishers
-    console.log(searchNames)
-    searchNames.foreEach(n => {
-      return console.log(userService.getUser(n))
-    }) */
-    console.log(this.props.searchInfo)
     //dummy posts
     const CrazyHumanLakeCoords = { lat: -21.805149, lng: -49.0921657 };
     const PostJerusalem1Coords = { lat: 31.7759335, lng: 35.2186382 };
-    
+
     return (
       <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
       >
-        <Marker onClick={this.onMarkerClick} name={"current location"}/>
+        <Marker onClick={this.onMarkerClick} name={"current location"} />
         <Marker
           onClick={this.onMarkerClick}
           name={'Post1'}

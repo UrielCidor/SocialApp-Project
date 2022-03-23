@@ -5,10 +5,10 @@ const Post = mongoose.model(
         title: String,
         publisher: String,
         date: String,
-        text: String,
         likes: [],
         tags: [],
-        location: { coords: { latitude: Number, longitude: Number } }
+        friendsTags: [],
+        location: { latitude: Number, longitude: Number } 
         // image:??
     })
 );
