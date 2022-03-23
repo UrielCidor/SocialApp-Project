@@ -50,13 +50,9 @@ export class MapContainer extends Component {
     }
   };
 
-
   render() {
     //dummy posts
     const CrazyHumanLakeCoords = { lat: -21.805149, lng: -49.0921657 };
-    const PostJerusalem1Coords = { lat: 31.7759335, lng: 35.2186382 };
-
-    return (
       <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
@@ -92,7 +88,7 @@ export class MapContainer extends Component {
           </div>
         </InfoWindow>
       </CurrentLocation>
-    );
+    
   }
 }
 
