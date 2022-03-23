@@ -9,7 +9,7 @@ exports.getAllPosts = async (req, res) => {
         } else {
             throw err
         }
-    }).catch(function (err) { console.log(err) }
+    }).clone().catch(function (err) { console.log(err) }
     )
 }
 

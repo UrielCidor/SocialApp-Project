@@ -9,7 +9,8 @@ export class MapContainer extends Component {
   state = {
     showingInfoWindow: false,
     activeMarker: {},
-    selectedPlace: {}
+    selectedPlace: {},
+    currentPosts: []
   };
 
   componentDidMount() {
@@ -18,8 +19,9 @@ export class MapContainer extends Component {
       this.props.onCurrentLocationChange(currentLocation);
 
       postService.getAllPosts().then(
-        (data) => {
-          console.log(data);
+        (posts) => {
+          console.log(posts.data);
+          this.setState({currentPosts: posts.data});
         },
         error => {
           const resMessage =
@@ -51,12 +53,25 @@ export class MapContainer extends Component {
   };
 
   render() {
+    
     //dummy posts
+    const PostJerusalem1Coords = {lat: 31.765100, lng: 35.218483}
     const CrazyHumanLakeCoords = { lat: -21.805149, lng: -49.0921657 };
+
+    return(
       <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
       >
+        {console.log(this.state.currentPosts)}
+        {this.state.currentPosts.length > 0 && this.state.currentPosts.map(p => {
+          return (
+            <Marker
+              onClick={this.onMarkerClick}
+              key={p._id} name={p.title}
+              position={{ lat: p.location.latitude, lng: p.location.longitude }}
+            />)
+        })}
         <Marker onClick={this.onMarkerClick} name={"current location"} />
         <Marker
           onClick={this.onMarkerClick}
@@ -88,6 +103,7 @@ export class MapContainer extends Component {
           </div>
         </InfoWindow>
       </CurrentLocation>
+      )
     
   }
 }
