@@ -9,17 +9,20 @@ export class MapContainer extends Component {
   state = {
     showingInfoWindow: false,
     activeMarker: {},
-    selectedPlace: {}
+    selectedPlace: {},
+    currentPosts: []
   };
 
   componentDidMount() {
+    console.log(this.state.currentPosts)
     navigator.geolocation.getCurrentPosition(pos => {
       const currentLocation = pos.coords;
       this.props.onCurrentLocationChange(currentLocation);
 
       postService.getAllPosts().then(
-        (data) => {
-          console.log(data);
+        (posts) => {
+          console.log(posts.data)
+          this.setState({currentPosts: posts.data})
         },
         error => {
           const resMessage =
@@ -53,19 +56,18 @@ export class MapContainer extends Component {
   render() {
     //dummy posts
     const CrazyHumanLakeCoords = { lat: -21.805149, lng: -49.0921657 };
+    return(
       <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
       >
+        {console.log(this.state.currentPosts)}
+        {this.state.currentPosts.length > 0 && this.state.currentPosts.map(p=>{ return <Marker onClick={this.onMarkerClick} key={p._id} name={p.title} position={{lat:p.location.latitude, lng:p.location.longitude}}/>})}
         <Marker onClick={this.onMarkerClick} name={"current location"} />
         <Marker
           onClick={this.onMarkerClick}
           name={'Post1'}
           position={{ lat: 32.0596261, lng: 34.7590195 }} />
-        <Marker
-          onClick={this.onMarkerClick}
-          name={'Post2'}
-          position={PostJerusalem1Coords} />
         <Circle
           radius={1200}
           center={CrazyHumanLakeCoords}
@@ -88,7 +90,7 @@ export class MapContainer extends Component {
           </div>
         </InfoWindow>
       </CurrentLocation>
-    
+    )
   }
 }
 
