@@ -14,6 +14,8 @@ export default class Home extends Component {
             currentLocation: null,
             content: "",
             inNewPost: false,
+            searchStartDate: null,
+            searchEndDate: null
         };
     }
 
@@ -38,6 +40,16 @@ export default class Home extends Component {
         else this.setState({ currentLocation: null })
     }
 
+    handleSearchStartDate(e) {
+        console.log(e)
+        this.setState({searchStartDate: e})
+    }
+
+    handleSearchEndDate(e) {
+        console.log(e)
+        this.setState({searchEndDate: e})
+    }
+
     render() {
         return (
             <div className="container">
@@ -57,8 +69,19 @@ export default class Home extends Component {
                             handleCloseNewPost={this.handleCloseNewPost.bind(this)}
                         />
                     </div>
-                    <div><MapContainer onCurrentLocationChange={this.handleCurrentLocation.bind(this)} /></div>
-                    <div><SearchInfo/></div>
+                    <div>
+                    <MapContainer 
+                    onCurrentLocationChange={this.handleCurrentLocation.bind(this)} 
+                    searchStartDate={this.state.searchStartDate} 
+                    searchEndDate={this.state.searchEndDate}
+                    onChange={this.handleSearchStartDate && this.handleSearchEndDate}/>
+                    </div>
+                    <div>
+                    <SearchInfo 
+                    searchStartDate={this.state.searchStartDate} 
+                    onSearchStartDateChange={this.handleSearchStartDate.bind(this)} 
+                    onSearchEndDateChange={this.handleSearchEndDate.bind(this)}/>
+                    </div>
                 </div>
             </div>
         );

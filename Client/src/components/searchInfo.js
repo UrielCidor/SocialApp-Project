@@ -5,8 +5,8 @@ export default class SearchInfo extends Component{
         super(props)
 
         this.state = {
-            startDate: "",
-            endDate: "",
+/*             startDate: Date, */
+            endDate: Date,
             publishers: [],
             radius: null,
             imageTags: "",
@@ -26,16 +26,12 @@ export default class SearchInfo extends Component{
 
     onChangeStartDate(e) {
         console.log(e.target.value)
-        this.setState({
-            startDate: e.target.value,
-        });
+        this.props.onSearchStartDateChange(e.target.value)
     }
 
     onChangeEndDate(e) {
         console.log(e.target.value)
-        this.setState({
-            endDate: e.target.value,
-        });
+        this.props.onSearchEndDateChange(e.target.value)
     }
 
     onChangeRadius(e) {
@@ -59,12 +55,12 @@ export default class SearchInfo extends Component{
         });
     }
 
-    render() {
+    render() {   
         return (
             <div className="container">
                 <div className="dashboard">
                     <div>
-                        Date from: <input type="date" onChange={this.onChangeStartDate.bind(this)} />
+                        Date from: <input type="date" onChange={this.onChangeStartDate.bind(this)}/>
                         Date to: <input type="date" onChange={this.onChangeEndDate.bind(this)} />
                         Publishers: <input type="text" onChange={this.onChangePublisher.bind(this)} />
                         Radius from current location: <input type="number" onChange={this.onChangeRadius.bind(this)} />

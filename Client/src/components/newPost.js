@@ -27,7 +27,8 @@ const PublishNewPost = (props) => {
         }
         setValidated(true);
         if (form.checkValidity() === true) {
-            postService.publish(
+            
+            postService.publish(               
                 title,
                 props.user.id,
                 friendsTags,
@@ -41,7 +42,6 @@ const PublishNewPost = (props) => {
                     console.log(error)
                 }
             )
-
         }
     }
 
