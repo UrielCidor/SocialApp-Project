@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GoogleApiWrapper, InfoWindow, Marker, Circle } from 'google-maps-react';
+import { GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 // import userService from '../services/userService';
 import CurrentLocation from './map';
 import postService from '../services/postService';
@@ -11,8 +11,7 @@ export class MapContainer extends Component {
     activeMarker: {},
     selectedPlace: {},
     currentPosts: [],
-    searchStartDate: null,
-    searchEndDate: null
+    selectedPost: null
   };
 
   componentDidMount() {
@@ -23,8 +22,7 @@ export class MapContainer extends Component {
 
       postService.getAllPosts().then(
         (posts) => {
-          console.log(posts.data);
-          this.setState({currentPosts: posts.data});
+          this.setState({ currentPosts: posts.data });
         },
         error => {
           const resMessage =
@@ -55,12 +53,17 @@ export class MapContainer extends Component {
       ); */
     });
   }
-  onMarkerClick = (props, marker, e) =>
+  onMarkerClick = async (props, marker, e) => {
+    console.log(props.postId)
+    let post = await postService.getPostById(props.postId);
+    console.log(post)
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
-      showingInfoWindow: true
-    });
+      showingInfoWindow: true,
+      selectedPost: post.data
+    })
+  };
 
   onClose = props => {
     if (this.state.showingInfoWindow) {
@@ -72,39 +75,24 @@ export class MapContainer extends Component {
   };
 
   render() {
-    
-    //dummy posts
-    const CrazyHumanLakeCoords = { lat: -21.805149, lng: -49.0921657 };
-    return(
+    return (
       <CurrentLocation
         centerAroundCurrentLocation
         google={this.props.google}
       >
-        {this.state.currentPosts.length > 0 && this.state.currentPosts.map(p => {
-          return (
-            <Marker
-              onClick={this.onMarkerClick}
-              key={p._id} name={p.title}
-              position={{ lat: p.location.latitude, lng: p.location.longitude }}
-            />)
-        })}
+        {this.state.currentPosts.length > 0 && this.state.currentPosts.map(p =>
+          <Marker
+            onClick={this.onMarkerClick}
+            key={p._id} name={p.title} postId={p._id}
+            position={{ lat: p.location.latitude, lng: p.location.longitude }}
+            icon={{
+              url: p.imageUrl,
+              scaledSize: new this.props.google.maps.Size(64, 64)
+            }}
+          />
+        )}
         <Marker onClick={this.onMarkerClick} name={"current location"} />
-        <Marker
-          onClick={this.onMarkerClick}
-          name={'Post1'}
-          position={{ lat: 32.0596261, lng: 34.7590195 }} />
-        <Circle
-          radius={1200}
-          center={CrazyHumanLakeCoords}
-          onMouseover={() => console.log('mouseover')}
-          onClick={() => console.log('click')}
-          onMouseout={() => console.log('mouseout')}
-          strokeColor='transparent'
-          strokeOpacity={0}
-          strokeWeight={5}
-          fillColor='#FF0000'
-          fillOpacity={0.2}
-        />
+
         <InfoWindow
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
@@ -112,10 +100,22 @@ export class MapContainer extends Component {
         >
           <div>
             <h4>{this.state.selectedPlace.name}</h4>
+            {this.state.selectedPost &&
+              <div>
+                <img src={this.state.selectedPost.imageUrl} style={{ maxHeight: 350, maxWidth: 350 }} />
+                <div>
+                  <p>tags: {this.state.selectedPost.tags}</p>
+                  <p>likes: {this.state.selectedPost.likes.length}</p>
+                </div>
+                <button>Like ❤️</button>
+                <button>comment</button>
+              </div>
+            }
           </div>
         </InfoWindow>
       </CurrentLocation>
-      )   
+    )
+
   }
 }
 

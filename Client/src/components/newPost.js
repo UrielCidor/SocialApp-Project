@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import postService from "../services/postService";
+import UploadImages from "./uploadFileUI";
 
 const PublishNewPost = (props) => {
     const [validated, setValidated] = useState(false);
     const [title, setTitle] = useState('');
     const [tags, setTags] = useState([]);
     const [friendsTags, setFriendsTags] = useState([]);
+    const [imageUrl, setImageUrl] = useState("");
 
     const onTitleChange = (e) => {
         setTitle(e.target.value);
@@ -17,10 +19,14 @@ const PublishNewPost = (props) => {
     const onFriendsTagsChange = (e) => {
         setFriendsTags(e.target.value);
     }
+    const handleImage = (e) => {
+        setImageUrl(e)
+    }
+
     const handleNewPostSubmit = (e) => {
         const form = e.currentTarget;
-        // console.log(form)
-        // console.log(form.checkValidity())
+        console.log(form)
+        console.log(form.checkValidity())
         if (form.checkValidity() === false) {
             e.preventDefault();
             e.stopPropagation();
@@ -33,7 +39,8 @@ const PublishNewPost = (props) => {
                 props.user.id,
                 friendsTags,
                 tags,
-                { lat: props.location.latitude, lng: props.location.longitude }
+                { lat: props.location.latitude, lng: props.location.longitude },
+                imageUrl
             ).then(
                 response => {
                     console.log(response.data);
@@ -70,9 +77,9 @@ const PublishNewPost = (props) => {
                             <Form.Control value={friendsTags} onChange={onFriendsTagsChange} type="text" placeholder="@username" />
                         </Form.Group>
                         <Form.Group controlId="formFile" className="mb-3">
-                            <Form.Label>Upload image:</Form.Label>
-                            <Form.Control type="file" />
+                            <UploadImages required user={props.user} onImageChange={handleImage}/>
                         </Form.Group>
+
                         <Form.Group controlId="postTags" className="mb-3">
                             <Form.Label>Create tags for your post:</Form.Label>
                             <Form.Control value={tags} onChange={onTagsChange} type="text" placeholder="Enter Tags" />

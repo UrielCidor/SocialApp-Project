@@ -12,6 +12,16 @@ exports.getAllPosts = async (req, res) => {
     }).clone().catch(function (err) { console.log(err) }
     )
 }
+exports.getPostById = async (req, res) => {
+    await Post.findById(req.params.id, (err, post) => {
+        if (!err) {
+            res.status(200).send(post);
+        } else {
+            throw err
+        }
+    }).clone().catch(function (err) { console.log(err) }
+    )
+}
 
 exports.getAllPostsByPublisher = async (req, res) => {
     const publisher = req.query.publisherId
@@ -91,8 +101,8 @@ exports.publishPost = (req, res) => {
         likes: [],
         tags: req.body.tags,
         location: { latitude: req.body.location.lat, longitude: req.body.location.lng },
-        friendsTags: req.body.friendsTags
-        // image: req.body.image
+        friendsTags: req.body.friendsTags,
+        imageUrl: req.body.imageUrl
     });
     post.save((err, post) => {
         if (err) {

@@ -8,8 +8,8 @@ const Post = mongoose.model(
         likes: [],
         tags: [],
         friendsTags: [],
-        location: { latitude: Number, longitude: Number } 
-        // image:??
+        location: { latitude: Number, longitude: Number },
+        imageUrl: String
     })
 );
 module.exports = Post;
