@@ -12,18 +12,28 @@ exports.getAllPosts = async (req, res) => {
     }).clone().catch(function (err) { console.log(err) }
     )
 }
+exports.getPostById = async (req, res) => {
+    await Post.findById(req.params.id, (err, post) => {
+        if (!err) {
+            res.status(200).send(post);
+        } else {
+            throw err
+        }
+    }).clone().catch(function (err) { console.log(err) }
+    )
+}
 
 exports.publishPost = (req, res) => {
     const post = new Post({
         title: req.body.title,
         publisher: req.body.publisher,
         // token: bcrypt.hashSync(req.body.password, 8)
-        date: new Date().toLocaleString(),
+        date: new Date(),
         likes: [],
         tags: req.body.tags,
         location: { latitude: req.body.location.lat, longitude: req.body.location.lng },
-        friendsTags: req.body.friendsTags
-        // image: req.body.image
+        friendsTags: req.body.friendsTags,
+        imageUrl: req.body.imageUrl
     });
     post.save((err, post) => {
         if (err) {
