@@ -8,7 +8,7 @@ class PostService {
             title,
             publisher,
             friendsTags,
-            tt,
+            tags,
             location,
             imageUrl
         });
@@ -18,13 +18,20 @@ class PostService {
         return axios.get(API_URL + "allPosts");
     }
 
-    getAllPostsByDates(startDate, endDate) {
-        console.log(startDate, endDate)
-        return axios.get(API_URL + `allPostsByDates/?startDate=${startDate}&endDate=${endDate}`)        
+    getPostById(id){
+        return axios.get(API_URL + `getPost/${id}`);
     }
 
-    getAllPostsByPublisher(publisherId) {
-        return axios.get(API_URL + `allPostsByPublisher/?publisherId=${publisherId}`)
+    getAllPostsBySearches(startDate, endDate, publishers, radius, imageTags, taggedUsers) {
+        console.log(startDate, endDate, publishers, radius, imageTags, taggedUsers)
+        return axios.post(API_URL + "allPostsBySearches", {
+            startDate,
+            endDate,
+            publishers,
+            radius,
+            imageTags,
+            taggedUsers
+        })
     }
 }
 

@@ -14,8 +14,7 @@ export default class Home extends Component {
             currentLocation: null,
             content: "",
             inNewPost: false,
-            searchStartDate: null,
-            searchEndDate: null
+            searchResults: []
         };
     }
 
@@ -40,17 +39,15 @@ export default class Home extends Component {
         else this.setState({ currentLocation: null })
     }
 
-    handleSearchStartDate(e) {
-        console.log(e)
-        this.setState({searchStartDate: e})
-    }
-
-    handleSearchEndDate(e) {
-        console.log(e)
-        this.setState({searchEndDate: e})
+    handleSearchResults(results){
+        console.log(results)
+        this.setState({
+            searchResults: results
+        })
     }
 
     render() {
+        console.log(this.state.searchResults)
         return (
             <div className="container">
                 <header className="jumbotron">
@@ -70,19 +67,25 @@ export default class Home extends Component {
                         />
                     </div>
                     <div>
-                    <MapContainer 
-                    onCurrentLocationChange={this.handleCurrentLocation.bind(this)} 
-                    searchStartDate={this.state.searchStartDate} 
-                    searchEndDate={this.state.searchEndDate}
-                    onChange={this.handleSearchStartDate && this.handleSearchEndDate}/>
-                    </div>
+                        <MapContainer
+                        onCurrentLocationChange={this.handleCurrentLocation.bind(this)}
+                        searchResults={this.state.searchResults}
+                        />
+                        {/* {this.state.searchResults.length > 0 && <MapContainer
+                            onCurrentLocationChange={this.handleCurrentLocation.bind(this)}
+                            searchResults={this.state.searchResults} /> } 
+                            {
+                            this.state.searchResults.length <= 0 &&  
+                            <MapContainer
+                            onCurrentLocationChange={this.handleCurrentLocation.bind(this)}/> 
+                            }                               */}     
+                    </div>                   
                     <div>
-                    <SearchInfo 
-                    searchStartDate={this.state.searchStartDate} 
-                    onSearchStartDateChange={this.handleSearchStartDate.bind(this)} 
-                    onSearchEndDateChange={this.handleSearchEndDate.bind(this)}/>
+                    <SearchInfo                   
+                    onChangeSearchResults={this.handleSearchResults.bind(this)}
+                    posts={this.state.searchResults}/>
                     </div>
-                </div>
+                </div>               
             </div>
         );
     }
