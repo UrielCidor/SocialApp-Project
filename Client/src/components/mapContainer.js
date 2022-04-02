@@ -47,40 +47,15 @@ constructor(props) {
         currentPosts: this.props.searchResults
       })
     }
-    //   if(this.props.searchResults === undefined || this.props.searchResults.length < 1){
-    //   postService.getAllPosts().then(
-    //     (posts) => {
-    //       this.setState({ currentPosts: posts.data });
-    //     },
-    //     error => {
-    //       const resMessage =
-    //         (error.response &&
-    //           error.response.data &&
-    //           error.response.data.message) ||
-    //         error.message ||
-    //         error.toString();
-    //       console.log(resMessage);
-    //     }
-    //   );
-    // }
-    // else {
-    //   this.setState({
-    //     currentPosts: this.props.searchResults
-    //   })
-    // }
   }
 
-  componentWillUnmount() {
-    this.setState({
-      currentPosts: []
-    })
-  }
-
-/*   onSearchResultsChange(searchResults) {
-    this.setState({
-      currentPosts: searchResults
-    })
-  } */
+  componentDidUpdate(prevProps){
+      if(prevProps.searchResults !== this.props.searchResults){
+        this.setState({
+          currentPosts: this.props.searchResults
+        })
+      }
+    }
 
   onMarkerClick = async (props, marker, e) => {
     let post = await postService.getPostById(props.postId);
