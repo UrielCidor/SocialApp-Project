@@ -5,11 +5,10 @@ import postService from '../services/postService';
 import userService from '../services/userService';
 import InfoWindowEx from './InfoWindowEx';
 import likeService from '../services/likeService';
-
-
 export class MapContainer extends Component {
-
-  state = {
+constructor(props) {
+  super(props)
+  this.state = {
     showingInfoWindow: false,
     activeMarker: {},
     selectedPlace: {},
@@ -17,31 +16,37 @@ export class MapContainer extends Component {
     selectedPost: null,
     message: ""
   };
+}
 
   componentDidMount() {
-    console.log("rendered")
     console.log(this.state.currentPosts)
     navigator.geolocation.getCurrentPosition(pos => {
       const currentLocation = pos.coords;
       this.props.onCurrentLocationChange(currentLocation);
       console.log(currentLocation)
-      console.log(this.props.searchResults)
-      if (this.state.currentPosts.length < 1) {
-        postService.getAllPosts().then(
-          (posts) => {
-            this.setState({ currentPosts: posts.data });
-          },
-          error => {
-            const resMessage =
-              (error.response &&
-                error.response.data &&
-                error.response.data.message) ||
-              error.message ||
-              error.toString();
-            console.log(resMessage);
-          }
-        );
-      }
+    })
+    console.log(this.props.searchResults)
+    if (this.props.searchResults === undefined || this.props.searchResults.length < 1) {
+      postService.getAllPosts().then(
+        (posts) => {
+          this.setState({ currentPosts: posts.data });
+        },
+        error => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+          console.log(resMessage);
+        }
+      );
+    }
+    else {
+      this.setState({
+        currentPosts: this.props.searchResults
+      })
+    }
     //   if(this.props.searchResults === undefined || this.props.searchResults.length < 1){
     //   postService.getAllPosts().then(
     //     (posts) => {
@@ -64,13 +69,18 @@ export class MapContainer extends Component {
     //   })
     // }
   }
-)}
 
-onSearchResultsChange(searchResults){
-  this.setState({
-    currentPosts: searchResults
-  })
-}
+  componentWillUnmount() {
+    this.setState({
+      currentPosts: []
+    })
+  }
+
+/*   onSearchResultsChange(searchResults) {
+    this.setState({
+      currentPosts: searchResults
+    })
+  } */
 
   onMarkerClick = async (props, marker, e) => {
     let post = await postService.getPostById(props.postId);
@@ -96,7 +106,7 @@ onSearchResultsChange(searchResults){
   };
 
   onLikeClick = async (e) => {
-    const user = {...JSON.parse(localStorage.getItem('user'))};
+    const user = { ...JSON.parse(localStorage.getItem('user')) };
     let response = await likeService.addLike(user.id, this.state.selectedPost._id);
     console.log(response);
     this.setState({ message: response.data.message, selectedPost: response.data.post })
@@ -105,8 +115,8 @@ onSearchResultsChange(searchResults){
   render() {
     console.log(this.state.selectedPost)
     console.log(this.state.message)
-    console.log(this.props.searchResults)
-    console.log(this.state.currentPosts)
+    console.log("this props:" ,this.props.searchResults)
+    console.log("this state:", this.state.currentPosts)
     return (
       <CurrentLocation
         centerAroundCurrentLocation
@@ -140,7 +150,7 @@ onSearchResultsChange(searchResults){
                   <p>tags: {this.state.selectedPost.tags}</p>
                   <p>likes: {this.state.selectedPost.likes.length}</p>
                 </div>
-                <div style={{color: "red", size:24}}>
+                <div style={{ color: "red", size: 24 }}>
                   {this.state.message}
                 </div>
                 <button onClick={this.onLikeClick}>Like ❤️</button>

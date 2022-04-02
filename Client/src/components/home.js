@@ -67,23 +67,23 @@ export default class Home extends Component {
                         />
                     </div>
                     <div>
-                        <MapContainer
+                        {/* <MapContainer
                         onCurrentLocationChange={this.handleCurrentLocation.bind(this)}
                         searchResults={this.state.searchResults}
-                        />
-                        {/* {this.state.searchResults.length > 0 && <MapContainer
+                        /> */}
+                        {this.state.searchResults.length > 0 && <MapContainer
                             onCurrentLocationChange={this.handleCurrentLocation.bind(this)}
-                            searchResults={this.state.searchResults} /> } 
-                            {
-                            this.state.searchResults.length <= 0 &&  
+                            searchResults={this.state.searchResults} />                          
+                        }
+                       {
+                            this.state.searchResults.length <= 0 &&
                             <MapContainer
-                            onCurrentLocationChange={this.handleCurrentLocation.bind(this)}/> 
-                            }                               */}     
+                                onCurrentLocationChange={this.handleCurrentLocation.bind(this)} />
+                        }                                    
                     </div>                   
                     <div>
                     <SearchInfo                   
-                    onChangeSearchResults={this.handleSearchResults.bind(this)}
-                    posts={this.state.searchResults}/>
+                    onChangeSearchResults={this.handleSearchResults.bind(this)}/>
                     </div>
                 </div>               
             </div>

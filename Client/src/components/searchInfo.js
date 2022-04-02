@@ -12,15 +12,10 @@ export default class SearchInfo extends Component {
             radius: 0,
             imageTags: "",
             taggedUsers: [],
-            posts: []
         }
     }
 
     onChangePublisher(e) {
-        /*         let publishers = e.target.value.split(",")
-                let tp = [];
-                publishers.forEach(p => tp.push(p.trim())) */
-        /*         console.log(tp); */
         this.setState({
             publishers: e.target.value
         });
@@ -79,11 +74,7 @@ export default class SearchInfo extends Component {
             this.state.taggedUsers
         )
         console.log(filteredPosts.data)
-        console.log(this.props.posts)
-        this.setState({
-            posts: filteredPosts.data
-        })
-        this.props.onChangeSearchResults(this.state.posts)
+        this.props.onChangeSearchResults(filteredPosts.data)
     }
 
     render() {
