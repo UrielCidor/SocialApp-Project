@@ -2,28 +2,20 @@ import React, { Component } from 'react';
 import { GoogleApiWrapper, Marker } from 'google-maps-react';
 import CurrentLocation from './map';
 import postService from '../services/postService';
-<<<<<<< HEAD
 import userService from '../services/userService';
 import InfoWindowEx from './InfoWindowEx';
 import likeService from '../services/likeService';
 
 
-=======
->>>>>>> 1316821a20e2a4ea335b2e037e2c4ea4187307c9
 export class MapContainer extends Component {
 
   state = {
     showingInfoWindow: false,
     activeMarker: {},
     selectedPlace: {},
-<<<<<<< HEAD
     currentPosts: [],
     selectedPost: null,
     message: ""
-=======
-    currentPosts: this.props.searchResults,
-    selectedPost: null,
->>>>>>> 1316821a20e2a4ea335b2e037e2c4ea4187307c9
   };
 
   componentDidMount() {
@@ -111,13 +103,10 @@ onSearchResultsChange(searchResults){
   }
 
   render() {
-<<<<<<< HEAD
     console.log(this.state.selectedPost)
     console.log(this.state.message)
-=======
     console.log(this.props.searchResults)
     console.log(this.state.currentPosts)
->>>>>>> 1316821a20e2a4ea335b2e037e2c4ea4187307c9
     return (
       <CurrentLocation
         centerAroundCurrentLocation
