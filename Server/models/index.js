@@ -4,5 +4,6 @@ const db = {};
 db.mongoose = mongoose;
 db.user = require("./userModel");
 db.post = require('./postModel');
+db.like = require('./likeModel');
 
 module.exports = db;

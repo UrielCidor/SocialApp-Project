@@ -8,4 +8,5 @@ module.exports = function(app) {
         next();
     });
     app.get("/api/user/user", controller.getUser);
+    app.get("/api/user/user/:id", controller.getUserById);
 }

@@ -17,7 +17,7 @@ exports.getPostById = async (req, res) => {
         if (!err) {
             res.status(200).send(post);
         } else {
-            throw err
+            return res.status(500).send(err);
         }
     }).clone().catch(function (err) { console.log(err) }
     )
@@ -40,6 +40,7 @@ exports.publishPost = (req, res) => {
             res.status(500).send({ message: err });
             return;
         }
+
         res.send({ message: "Post published successfully!", post });
     })
 };

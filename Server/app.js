@@ -33,6 +33,7 @@ require('./routes/login')(app);
 require('./routes/user')(app);
 require('./routes/post')(app);
 require('./routes/images')(app);
+require('./routes/like')(app);
 
 
 const PORT = process.env.PORT || 4000;

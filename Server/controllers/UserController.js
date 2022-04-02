@@ -15,3 +15,17 @@ exports.getUser = (req, res) => {
         res.status(200).send(user);
     })
   };
+
+  exports.getUserById = (req, res) => {
+    User.findById(req.params.id)
+    .exec((err, user) => {
+        if (err) {
+            res.status(500).send({ message: err });
+            return;
+        }
+        if (!user) {
+            return res.status(404).send({ message: "User Not found." });
+        }
+        res.status(200).send(user.username);
+    })
+  };

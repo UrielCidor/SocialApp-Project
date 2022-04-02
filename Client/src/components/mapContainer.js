@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
-// import userService from '../services/userService';
+import { GoogleApiWrapper, Marker } from 'google-maps-react';
 import CurrentLocation from './map';
 import postService from '../services/postService';
+import userService from '../services/userService';
+import InfoWindowEx from './InfoWindowEx';
+import likeService from '../services/likeService';
 
 
 export class MapContainer extends Component {
@@ -11,7 +13,8 @@ export class MapContainer extends Component {
     activeMarker: {},
     selectedPlace: {},
     currentPosts: [],
-    selectedPost: null
+    selectedPost: null,
+    message: ""
   };
 
   componentDidMount() {
@@ -37,9 +40,9 @@ export class MapContainer extends Component {
     });
   }
   onMarkerClick = async (props, marker, e) => {
-    console.log(props.postId)
     let post = await postService.getPostById(props.postId);
-    console.log(post)
+    let publisherName = await userService.getUserById(post.data.publisher)
+    post.data.publisherName = publisherName.data;
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
@@ -52,12 +55,23 @@ export class MapContainer extends Component {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
-        activeMarker: null
+        activeMarker: null,
+        selectedPost: null,
+        message: null
       });
     }
   };
 
+  onLikeClick = async (e) => {
+    const user = {...JSON.parse(localStorage.getItem('user'))};
+    let response = await likeService.addLike(user.id, this.state.selectedPost._id);
+    console.log(response);
+    this.setState({ message: response.data.message, selectedPost: response.data.post })
+  }
+
   render() {
+    console.log(this.state.selectedPost)
+    console.log(this.state.message)
     return (
       <CurrentLocation
         centerAroundCurrentLocation
@@ -76,7 +90,7 @@ export class MapContainer extends Component {
         )}
         <Marker onClick={this.onMarkerClick} name={"current location"} />
 
-        <InfoWindow
+        <InfoWindowEx
           marker={this.state.activeMarker}
           visible={this.state.showingInfoWindow}
           onClose={this.onClose}
@@ -85,17 +99,21 @@ export class MapContainer extends Component {
             <h4>{this.state.selectedPlace.name}</h4>
             {this.state.selectedPost &&
               <div>
-                <img src={this.state.selectedPost.imageUrl} style={{ maxHeight: 350, maxWidth: 350 }} />
+                <p>by {this.state.selectedPost.publisherName}</p>
+                <img src={this.state.selectedPost.imageUrl} alt="post" style={{ maxHeight: 350, maxWidth: 350 }} />
                 <div>
                   <p>tags: {this.state.selectedPost.tags}</p>
                   <p>likes: {this.state.selectedPost.likes.length}</p>
                 </div>
-                <button>Like ❤️</button>
+                <div style={{color: "red", size:24}}>
+                  {this.state.message}
+                </div>
+                <button onClick={this.onLikeClick}>Like ❤️</button>
                 <button>comment</button>
               </div>
             }
           </div>
-        </InfoWindow>
+        </InfoWindowEx>
       </CurrentLocation>
     )
 
@@ -106,4 +124,5 @@ export default GoogleApiWrapper(
   (props) => ({
     apiKey: 'AIzaSyDZQyl9bEj2jljuHiPS4TsfL5V4usG7ni4'
   }
-  ))(MapContainer)  
+  ))(MapContainer)
+

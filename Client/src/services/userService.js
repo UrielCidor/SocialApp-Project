@@ -11,6 +11,10 @@ class UserService {
         // return JSON.parse(localStorage.getItem('user'));
         return JSON.stringify(localStorage.getItem('user'));
       }
+      getUserById(id){
+        return axios.get(API_URL + `user/${id}`);
+
+      }
 }
 
 export default new UserService();

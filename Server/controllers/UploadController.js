@@ -12,7 +12,7 @@ const User = db.user;
 const uploadFiles = async (req, res) => {
   try {
     await upload(req, res);
-    console.log("file", req.file);
+    // console.log("file", req.file);
     if (req.file == undefined) {
       return res.send({
         message: "You must select a file.",
@@ -49,7 +49,7 @@ const download = async (req, res) => {
     });
     let downloadStream = bucket.openDownloadStreamByName(req.params.name);
     downloadStream.on("data", function (data) {
-      console.log("data:", data)
+      // console.log("data:", data)
       return res.status(200).write(data);
     });
     downloadStream.on("error", function (err) {
