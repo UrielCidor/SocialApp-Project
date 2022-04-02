@@ -1,41 +1,43 @@
 import { Component } from "react";
+import postService from "../services/postService";
 
-export default class SearchInfo extends Component{
+export default class SearchInfo extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
             startDate: "",
             endDate: "",
-            publishers: [],
-            radius: null,
+            publishers: "",
+            radius: 0,
             imageTags: "",
-            taggedUsers: []
+            taggedUsers: [],
+            posts: []
         }
     }
 
     onChangePublisher(e) {
-        let publishers = e.target.value.split(",")
-        let tp = [];
-        publishers.forEach(p => tp.push(p.trim()))
-        console.log(tp);
+        /*         let publishers = e.target.value.split(",")
+                let tp = [];
+                publishers.forEach(p => tp.push(p.trim())) */
+        /*         console.log(tp); */
         this.setState({
-            publishers: tp
+            publishers: e.target.value
         });
     }
 
     onChangeStartDate(e) {
         console.log(e.target.value)
         this.setState({
-            startDate: e.target.value,
-        });
+            startDate: e.target.value
+        })
     }
 
     onChangeEndDate(e) {
         console.log(e.target.value)
         this.setState({
-            endDate: e.target.value,
-        });
+            endDate: e.target.value
+        })
     }
 
     onChangeRadius(e) {
@@ -59,19 +61,45 @@ export default class SearchInfo extends Component{
         });
     }
 
+    async handleSearchButton(e) {
+        let publishers = this.state.publishers.split(",")
+        let imageTags = this.state.imageTags.split(",")
+        let tp = [];
+        let tit = []
+        publishers.forEach(p => tp.push(p.trim()))
+        imageTags.forEach(p => tit.push(p.trim()))
+        console.log(tp);
+        console.log(tit);
+        const filteredPosts = await postService.getAllPostsBySearches(
+            this.state.startDate,
+            this.state.endDate,
+            tp,
+            this.state.radius,
+            tit,
+            this.state.taggedUsers
+        )
+        console.log(filteredPosts.data)
+        console.log(this.props.posts)
+        this.setState({
+            posts: filteredPosts.data
+        })
+        this.props.onChangeSearchResults(this.state.posts)
+    }
+
     render() {
         return (
             <div className="container">
                 <div className="dashboard">
                     <div>
-                        Date from: <input type="date" onChange={this.onChangeStartDate.bind(this)} />
-                        Date to: <input type="date" onChange={this.onChangeEndDate.bind(this)} />
-                        Publishers: <input type="text" onChange={this.onChangePublisher.bind(this)} />
-                        Radius from current location: <input type="number" onChange={this.onChangeRadius.bind(this)} />
-                        Image tags: <input type="text" onChange={this.onChangeImageTags.bind(this)} />
-                        Tagged users: <input type="text" onChange={this.onChangeTaggedUsers.bind(this)} />
-                    </div>                
+                        Date from: <input type="date" onChange={this.onChangeStartDate.bind(this)} value={this.state.startDate} />
+                        Date to: <input type="date" onChange={this.onChangeEndDate.bind(this)} value={this.state.endDate} />
+                        Publishers: <input type="text" onChange={this.onChangePublisher.bind(this)} value={this.state.publishers} />
+                        Radius from current location: <input type="number" onChange={this.onChangeRadius.bind(this)} value={this.state.radius} />
+                        Image tags: <input type="text" onChange={this.onChangeImageTags.bind(this)} value={this.state.imageTags} />
+                        Tagged users: <input type="text" onChange={this.onChangeTaggedUsers.bind(this)} value={this.state.taggedUsers} />
+                    </div>
                 </div>
+                <button onClick={this.handleSearchButton.bind(this)}>Search</button>
             </div>
         );
     }

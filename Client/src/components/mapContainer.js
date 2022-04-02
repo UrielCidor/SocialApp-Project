@@ -2,43 +2,84 @@ import React, { Component } from 'react';
 import { GoogleApiWrapper, Marker } from 'google-maps-react';
 import CurrentLocation from './map';
 import postService from '../services/postService';
+<<<<<<< HEAD
 import userService from '../services/userService';
 import InfoWindowEx from './InfoWindowEx';
 import likeService from '../services/likeService';
 
 
+=======
+>>>>>>> 1316821a20e2a4ea335b2e037e2c4ea4187307c9
 export class MapContainer extends Component {
+
   state = {
     showingInfoWindow: false,
     activeMarker: {},
     selectedPlace: {},
+<<<<<<< HEAD
     currentPosts: [],
     selectedPost: null,
     message: ""
+=======
+    currentPosts: this.props.searchResults,
+    selectedPost: null,
+>>>>>>> 1316821a20e2a4ea335b2e037e2c4ea4187307c9
   };
 
   componentDidMount() {
+    console.log("rendered")
+    console.log(this.state.currentPosts)
     navigator.geolocation.getCurrentPosition(pos => {
       const currentLocation = pos.coords;
       this.props.onCurrentLocationChange(currentLocation);
-
-      postService.getAllPosts().then(
-        (posts) => {
-          this.setState({ currentPosts: posts.data });
-        },
-        error => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-          console.log(resMessage);
-        }
-      );
-
-    });
+      console.log(currentLocation)
+      console.log(this.props.searchResults)
+      if (this.state.currentPosts.length < 1) {
+        postService.getAllPosts().then(
+          (posts) => {
+            this.setState({ currentPosts: posts.data });
+          },
+          error => {
+            const resMessage =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
+            console.log(resMessage);
+          }
+        );
+      }
+    //   if(this.props.searchResults === undefined || this.props.searchResults.length < 1){
+    //   postService.getAllPosts().then(
+    //     (posts) => {
+    //       this.setState({ currentPosts: posts.data });
+    //     },
+    //     error => {
+    //       const resMessage =
+    //         (error.response &&
+    //           error.response.data &&
+    //           error.response.data.message) ||
+    //         error.message ||
+    //         error.toString();
+    //       console.log(resMessage);
+    //     }
+    //   );
+    // }
+    // else {
+    //   this.setState({
+    //     currentPosts: this.props.searchResults
+    //   })
+    // }
   }
+)}
+
+onSearchResultsChange(searchResults){
+  this.setState({
+    currentPosts: searchResults
+  })
+}
+
   onMarkerClick = async (props, marker, e) => {
     let post = await postService.getPostById(props.postId);
     let publisherName = await userService.getUserById(post.data.publisher)
@@ -70,8 +111,13 @@ export class MapContainer extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     console.log(this.state.selectedPost)
     console.log(this.state.message)
+=======
+    console.log(this.props.searchResults)
+    console.log(this.state.currentPosts)
+>>>>>>> 1316821a20e2a4ea335b2e037e2c4ea4187307c9
     return (
       <CurrentLocation
         centerAroundCurrentLocation
@@ -116,7 +162,6 @@ export class MapContainer extends Component {
         </InfoWindowEx>
       </CurrentLocation>
     )
-
   }
 }
 

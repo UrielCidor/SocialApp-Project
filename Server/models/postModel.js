@@ -4,7 +4,7 @@ const Post = mongoose.model(
     new mongoose.Schema({
         title: String,
         publisher: String,
-        date: String,
+        date: Date,
         likes: [],
         tags: [],
         friendsTags: [],

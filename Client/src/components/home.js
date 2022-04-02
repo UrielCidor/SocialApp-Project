@@ -14,6 +14,7 @@ export default class Home extends Component {
             currentLocation: null,
             content: "",
             inNewPost: false,
+            searchResults: []
         };
     }
 
@@ -38,7 +39,15 @@ export default class Home extends Component {
         else this.setState({ currentLocation: null })
     }
 
+    handleSearchResults(results){
+        console.log(results)
+        this.setState({
+            searchResults: results
+        })
+    }
+
     render() {
+        console.log(this.state.searchResults)
         return (
             <div className="container">
                 <header className="jumbotron">
@@ -57,9 +66,26 @@ export default class Home extends Component {
                             handleCloseNewPost={this.handleCloseNewPost.bind(this)}
                         />
                     </div>
-                    <div><MapContainer onCurrentLocationChange={this.handleCurrentLocation.bind(this)} /></div>
-                    <div><SearchInfo/></div>
-                </div>
+                    <div>
+                        <MapContainer
+                        onCurrentLocationChange={this.handleCurrentLocation.bind(this)}
+                        searchResults={this.state.searchResults}
+                        />
+                        {/* {this.state.searchResults.length > 0 && <MapContainer
+                            onCurrentLocationChange={this.handleCurrentLocation.bind(this)}
+                            searchResults={this.state.searchResults} /> } 
+                            {
+                            this.state.searchResults.length <= 0 &&  
+                            <MapContainer
+                            onCurrentLocationChange={this.handleCurrentLocation.bind(this)}/> 
+                            }                               */}     
+                    </div>                   
+                    <div>
+                    <SearchInfo                   
+                    onChangeSearchResults={this.handleSearchResults.bind(this)}
+                    posts={this.state.searchResults}/>
+                    </div>
+                </div>               
             </div>
         );
     }

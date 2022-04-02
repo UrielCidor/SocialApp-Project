@@ -17,8 +17,21 @@ class PostService {
     getAllPosts(){
         return axios.get(API_URL + "allPosts");
     }
+
     getPostById(id){
         return axios.get(API_URL + `getPost/${id}`);
+    }
+
+    getAllPostsBySearches(startDate, endDate, publishers, radius, imageTags, taggedUsers) {
+        console.log(startDate, endDate, publishers, radius, imageTags, taggedUsers)
+        return axios.post(API_URL + "allPostsBySearches", {
+            startDate,
+            endDate,
+            publishers,
+            radius,
+            imageTags,
+            taggedUsers
+        })
     }
 }
 
